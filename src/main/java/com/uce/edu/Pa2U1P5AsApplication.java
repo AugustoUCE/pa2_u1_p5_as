@@ -18,6 +18,7 @@ public class Pa2U1P5AsApplication implements CommandLineRunner{
 		System.out.println("Soy Augusto Salazar");
 		System.out.println("cambio en la misma rama");
 		System.out.println("Cambio en una nueva rama Taller 3");
+		System.out.println("Taller 4 version 2");
 	}
 
 }
