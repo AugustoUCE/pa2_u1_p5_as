@@ -6,9 +6,9 @@ public interface IInventarioRepository {
 
 	public Inventario seleccionar(String codigo);
 
-	public void insertar(Inventario Inventario);
+	public void insertar(Inventario inventario);
 
-	public void actualizar(Inventario Inventario);
+	public void actualizar(Inventario inventario);
 
 	public void eliminar(String codigo);
 

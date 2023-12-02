@@ -7,6 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Inventario {
 	
+	private String codigo;
+	public String getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 	private LocalDateTime fechaIngreso;
 	private Bodega bodega;
 	private Producto producto;
@@ -31,8 +38,10 @@ public class Inventario {
 	}
 	@Override
 	public String toString() {
-		return "Inventario [fechaIngreso=" + fechaIngreso + ", bodega=" + bodega + ", producto=" + producto + "]";
+		return "Inventario [codigo=" + codigo + ", fechaIngreso=" + fechaIngreso + ", bodega=" + bodega + ", producto="
+				+ producto + "]";
 	}
+
 	
 	
 

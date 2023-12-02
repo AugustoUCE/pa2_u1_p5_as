@@ -1,6 +1,7 @@
 package com.uce.edu;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.uce.edu.inventario.repository.modelo.Bodega;
+import com.uce.edu.inventario.repository.modelo.Inventario;
+import com.uce.edu.inventario.repository.modelo.Producto;
+import com.uce.edu.inventario.service.IBodegaService;
+import com.uce.edu.inventario.service.IInventarioService;
+import com.uce.edu.inventario.service.IProductoService;
 import com.uce.edu.transferencia.repository.modelo.CuentaBancaria;
 import com.uce.edu.transferencia.repository.modelo.Transferencia;
 import com.uce.edu.transferencia.service.ICuentaBancariaService;
@@ -18,9 +25,13 @@ import com.uce.edu.transferencia.service.ITransferenciaService;
 public class Pa2U1P5AsApplication implements CommandLineRunner {
 
 	@Autowired
-	private ITransferenciaService transferenciaService;
+	private IProductoService productoService;
+	
 	@Autowired
-	private ICuentaBancariaService cuentaBancariaService;
+	private IBodegaService bodegaService;
+	
+	@Autowired
+	private IInventarioService inventarioService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Pa2U1P5AsApplication.class, args);
@@ -28,48 +39,52 @@ public class Pa2U1P5AsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// 1. Crear cuentas
-		CuentaBancaria ctaOrigen = new CuentaBancaria();
-		ctaOrigen.setCedulaPropietario("1752083905");
-		ctaOrigen.setNumero("1234");
-		ctaOrigen.setSaldo(new BigDecimal(100));
-		this.cuentaBancariaService.guardar(ctaOrigen);
+		Producto p1 = new Producto();
+		p1.setNombre("HP 15 laptop");
+		p1.setStock(0);
+		p1.setCodigoBarras("12345");
+		this.productoService.guardar(p1);
 
-		// ctadestino
-		CuentaBancaria ctaDestino = new CuentaBancaria();
-		ctaDestino.setCedulaPropietario("1234658790");
-		ctaDestino.setNumero("5678");
-		ctaDestino.setSaldo(new BigDecimal(200));
-		this.cuentaBancariaService.guardar(ctaDestino);
+		Producto p2 = new Producto();
+		p2.setNombre("Teclado HP");
+		p2.setStock(0);
+		p2.setCodigoBarras("123456");
+		this.productoService.guardar(p2);
 
-		this.transferenciaService.realizar("1234", "5678", new BigDecimal(40));
-		System.out.println(ctaOrigen.hashCode());
-
-		this.transferenciaService.realizar("1234", "5678", new BigDecimal(10));
-		this.transferenciaService.realizar("5678", "1234", new BigDecimal(10));
-
-		// construir un reporte del estado de cuenta de todas las trasnferencias
-		System.out.println("\n Inicio Reporte");
+	
+		Bodega b1 = new Bodega();
+		b1.setNombre("Supermaxi");
+		b1.setDireccion("Las gasca");
+		b1.setCodigo("242424");
+		b1.setCapacidad(100);
 		
-		List<Transferencia> listrep = this.transferenciaService.buscarTodo();
-
-		int indice = 0;
-
-		for (Transferencia trans : listrep) {
-			indice++;
-			System.out.println(indice + ":" + trans);
-		}
-		System.out.println("Fin Reporte\n");
-
-		//Imprimir para ver la cuentas origen y destino
-		CuentaBancaria ctaOrigen1 = this.cuentaBancariaService.buscar("1234");
-		System.out.println(ctaOrigen1);
-		CuentaBancaria ctaDestino1 = this.cuentaBancariaService.buscar("5678");
-		System.out.println(ctaDestino1);
-		System.out.println("fin");
+		this.bodegaService.guardar(b1);
 		
 		
-
+		Inventario i1=new Inventario();
+		i1.setCodigo("1256");
+		i1.setFechaIngreso(null);
+		i1.setBodega(b1);
+		i1.setProducto(p1);
+		this.inventarioService.guardar(i1);
+		
+		Inventario i2=new Inventario();
+		i2.setCodigo("2134");
+		i2.setFechaIngreso(null);
+		i2.setBodega(b1);
+		i2.setProducto(p2);
+		this.inventarioService.guardar(i2);
+	
+		
+		this.inventarioService.registrar("242424", "12345", 50);
+		System.out.println("producto 1: "+this.inventarioService.buscar("1256"));
+		
+		this.inventarioService.registrar("242424", "123456", 100);
+		System.out.println("producto 2: "+this.inventarioService.buscar("2134"));
+		
+		this.inventarioService.registrar("242424", "12345", 20);
+		System.out.println("producto 1: "+this.inventarioService.buscar("1256"));
+		
 	}
 
 }

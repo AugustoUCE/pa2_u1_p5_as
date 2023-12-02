@@ -6,9 +6,9 @@ public interface IProductoRepository {
 
 	public Producto seleccionar(String codigoBarras);
 
-	public void insertar(Producto Producto);
+	public void insertar(Producto producto);
 
-	public void actualizar(Producto Producto);
+	public void actualizar(Producto producto);
 
 	public void eliminar(String codigoBarras);
 }
