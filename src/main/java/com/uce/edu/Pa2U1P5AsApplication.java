@@ -48,42 +48,28 @@ public class Pa2U1P5AsApplication implements CommandLineRunner {
 		Producto p2 = new Producto();
 		p2.setNombre("Teclado HP");
 		p2.setStock(0);
-		p2.setCodigoBarras("123456");
+		p2.setCodigoBarras("567");
 		this.productoService.guardar(p2);
 
 	
 		Bodega b1 = new Bodega();
 		b1.setNombre("Supermaxi");
 		b1.setDireccion("Las gasca");
-		b1.setCodigo("242424");
+		b1.setCodigo("2424");
 		b1.setCapacidad(100);
 		
 		this.bodegaService.guardar(b1);
 		
 		
-		Inventario i1=new Inventario();
-		i1.setCodigo("1256");
-		i1.setFechaIngreso(null);
-		i1.setBodega(b1);
-		i1.setProducto(p1);
-		this.inventarioService.guardar(i1);
+		this.inventarioService.registrar("2424", "12345", 50);
+		System.out.println("producto 1: "+this.inventarioService.buscar("232323"));
 		
-		Inventario i2=new Inventario();
-		i2.setCodigo("2134");
-		i2.setFechaIngreso(null);
-		i2.setBodega(b1);
-		i2.setProducto(p2);
-		this.inventarioService.guardar(i2);
-	
+		this.inventarioService.registrar("2424", "567", 100);
 		
-		this.inventarioService.registrar("242424", "12345", 50);
-		System.out.println("producto 1: "+this.inventarioService.buscar("1256"));
+		System.out.println("producto 2: "+this.inventarioService.buscar("232323"));
 		
-		this.inventarioService.registrar("242424", "123456", 100);
-		System.out.println("producto 2: "+this.inventarioService.buscar("2134"));
-		
-		this.inventarioService.registrar("242424", "12345", 20);
-		System.out.println("producto 1: "+this.inventarioService.buscar("1256"));
+		this.inventarioService.registrar("2424", "12345", 20);
+		System.out.println("producto 1: "+this.inventarioService.buscar("232323"));
 		
 	}
 
